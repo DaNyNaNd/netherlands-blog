@@ -1,0 +1,32 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head><BaseHead title={`About | ${SITE_TITLE}`} description="A family journal about our life in the Netherlands." /></head>
+	<body>
+		<Header />
+		<main>
+			<p class="eyebrow">About this site</p>
+			<h1>A small window into our everyday life.</h1>
+			<p>
+				We made this journal for the people we love back in the States. Here, we’ll share the big moments
+				and the ordinary ones: new routines, favorite places, surprises, visitors, pictures, and the stories
+				that are easiest to tell with a little distance.
+			</p>
+			<p>We’re glad you’re following along.</p>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	main { width: min(720px, calc(100% - 2rem)); margin: auto; padding: 5rem 0; }
+	.eyebrow { color: var(--accent); font-size: 0.88rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+	main > p:not(.eyebrow) { color: var(--muted); font-size: 1.15rem; }
+	@media (max-width: 600px) { main { padding: 2.5rem 0; } }
+</style>
