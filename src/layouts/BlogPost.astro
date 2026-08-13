@@ -1,5 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import tulipsPaper from '../assets/journal/tulips-paper.png';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -17,14 +19,26 @@ const { title, description, pubDate, updatedDate, coverImage, coverAlt, location
 		<main class="post">
 			<article>
 				<header class="post-header">
-					<p class="eyebrow"><FormattedDate date={pubDate} /></p>
+					<div class="post-kicker">
+						<p class="eyebrow">A note from the Netherlands</p>
+						<p class="date"><FormattedDate date={pubDate} /></p>
+					</div>
 					<h1>{title}</h1>
 					<p class="dek">{description}</p>
 					{locations.length > 0 && <p class="locations">{locations.join(' · ')}</p>}
 					{updatedDate && <p class="updated">Updated <FormattedDate date={updatedDate} /></p>}
+					<Image src={tulipsPaper} alt="" aria-hidden="true" width={190} />
 				</header>
-				{coverImage && <img class="cover" src={coverImage} alt={coverAlt || ''} />}
+				{coverImage && (
+					<figure class="cover-frame">
+						<img class="cover" src={coverImage} alt={coverAlt || ''} />
+					</figure>
+				)}
 				<div class="prose"><slot /></div>
+				<footer class="story-end">
+					<p>Thanks for following along with our Netherlands chapter.</p>
+					<a href="/blog">Back to the journal</a>
+				</footer>
 			</article>
 		</main>
 		<Footer />
@@ -32,13 +46,40 @@ const { title, description, pubDate, updatedDate, coverImage, coverAlt, location
 </html>
 
 <style>
-	.post { width: min(760px, calc(100% - 2rem)); margin: auto; padding: 4rem 0 5rem; }
-	.post-header { text-align: center; margin-bottom: 2.5rem; }
-	.eyebrow, .locations, .updated { color: var(--muted); font-size: 0.9rem; }
-	.dek { font-size: 1.2rem; color: var(--muted); }
-	.locations { margin: 1.25rem 0 0; }
-	.updated { font-style: italic; }
-	.cover { width: 100%; max-height: 520px; object-fit: cover; border-radius: 1rem; margin-bottom: 2rem; }
-	.prose :global(p) { margin: 0 0 1.35rem; }
-	.prose :global(video) { width: 100%; border-radius: 0.75rem; }
+	.post { width: min(920px, calc(100% - 2.5rem)); margin: auto; padding: 5rem 0 6rem; }
+	.post-header { position: relative; max-width: 800px; margin: 0 auto 3.5rem; padding: 0 1rem 2.5rem; text-align: center; border-bottom: 3px solid var(--blue); }
+	.post-kicker { display: flex; align-items: baseline; justify-content: center; gap: 1rem; }
+	.post-kicker p { margin-bottom: 0.8rem; }
+	.date, .locations, .updated { color: var(--muted); font-size: 0.9rem; }
+	.date { font-weight: 700; }
+	.post-header h1 { color: var(--coral); }
+	.dek { max-width: 660px; margin: 1.3rem auto 0; color: var(--muted); font-size: 1.25rem; }
+	.locations { margin: 1.25rem 0 0; color: var(--blue); font-style: italic; }
+	.updated { margin-top: 0.25rem; font-style: italic; }
+	.post-header img { position: absolute; right: -10rem; bottom: -2rem; width: 160px; padding: 0.4rem; background: var(--white); box-shadow: 0 10px 28px rgba(43, 36, 27, 0.12); transform: rotate(3deg); }
+	.cover-frame { margin: 0 auto 3.5rem; padding: 0.7rem; background: var(--white); box-shadow: var(--shadow); transform: rotate(-0.5deg); }
+	.cover { width: 100%; max-height: 620px; object-fit: cover; }
+	.prose { width: min(720px, 100%); margin: auto; color: #2c423b; }
+	.prose :global(p) { margin: 0 0 1.4rem; }
+	.prose :global(h2) { margin: 3.2rem 0 1rem; color: var(--ink-blue); font-size: clamp(2rem, 4vw, 2.8rem); }
+	.prose :global(h3) { margin: 2.4rem 0 0.8rem; color: var(--ink-blue); }
+	.prose :global(img) { width: 100%; margin: 2.5rem 0 0.7rem; padding: 0.55rem; background: var(--white); box-shadow: 0 12px 32px rgba(43, 36, 27, 0.13); }
+	.prose :global(figure) { margin: 2.5rem 0; }
+	.prose :global(figure img) { margin: 0; }
+	.prose :global(figcaption) { margin-top: 0.7rem; color: var(--muted); font-size: 0.9rem; font-style: italic; text-align: center; }
+	.prose :global(video) { width: 100%; margin: 2.5rem 0; border: 0.55rem solid var(--white); background: var(--ink); box-shadow: 0 12px 32px rgba(43, 36, 27, 0.13); }
+	.prose :global(a) { font-weight: 700; }
+	.story-end { width: min(720px, 100%); margin: 4rem auto 0; padding: 2rem; border-top: 3px solid var(--yellow); color: var(--muted); text-align: center; }
+	.story-end p { font-family: var(--font-display); font-size: 1.25rem; font-style: italic; }
+	.story-end a { font-weight: 700; }
+
+	@media (max-width: 850px) {
+		.post-header img { display: none; }
+	}
+
+	@media (max-width: 600px) {
+		.post { width: min(100% - 1.5rem, 920px); padding-top: 3.2rem; }
+		.post-kicker { display: block; }
+		.cover-frame { padding: 0.4rem; transform: none; }
+	}
 </style>

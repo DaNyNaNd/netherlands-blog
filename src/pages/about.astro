@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import canalBicycle from '../assets/journal/canal-bicycle.png';
+import stroopwafel from '../assets/journal/stroopwafel.png';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -11,22 +14,67 @@ import { SITE_TITLE } from '../consts';
 	<body>
 		<Header />
 		<main>
-			<p class="eyebrow">About this site</p>
-			<h1>A small window into our everyday life.</h1>
-			<p>
-				We made this journal for the people we love back in the States. Here, we’ll share the big moments
-				and the ordinary ones: new routines, favorite places, surprises, visitors, pictures, and the stories
-				that are easiest to tell with a little distance.
-			</p>
-			<p>We’re glad you’re following along.</p>
+			<section class="about-hero">
+				<div class="about-copy">
+					<p class="eyebrow">About this site</p>
+					<h1>A small window into our everyday life.</h1>
+					<p class="intro">We made this journal for the people we love back in the States.</p>
+					<p>
+						Here, we’ll share the big moments and the ordinary ones: new routines, favorite places,
+						surprises, visitors, pictures, and the stories that are easiest to tell with a little distance.
+					</p>
+					<p>We’re glad you’re following along.</p>
+				</div>
+				<div class="about-collage" aria-label="A bicycle by the canal and a Dutch treat">
+					<figure class="photo photo-main">
+						<Image src={canalBicycle} alt="A bicycle with tulips beside an Amsterdam canal" width={680} />
+					</figure>
+					<figure class="photo photo-small">
+						<Image src={stroopwafel} alt="A stroopwafel on a blue and white plate" width={300} />
+					</figure>
+				</div>
+			</section>
+			<section class="promise">
+				<p class="eyebrow">What belongs here</p>
+				<h2>The memories that make a place feel like home.</h2>
+				<div class="promise-grid">
+					<p>Photos that catch the details we might otherwise forget.</p>
+					<p>Videos that carry the sounds and movement of a day.</p>
+					<p>Stories that connect all the small moments in between.</p>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
 
 <style>
-	main { width: min(720px, calc(100% - 2rem)); margin: auto; padding: 5rem 0; }
-	.eyebrow { color: var(--accent); font-size: 0.88rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
-	main > p:not(.eyebrow) { color: var(--muted); font-size: 1.15rem; }
-	@media (max-width: 600px) { main { padding: 2.5rem 0; } }
+	main { width: min(1160px, calc(100% - 2.5rem)); margin: auto; padding: 5rem 0 6rem; }
+	.about-hero { min-height: 680px; display: grid; grid-template-columns: 0.95fr 1.05fr; align-items: center; gap: clamp(3rem, 7vw, 7rem); }
+	.about-copy h1 { color: var(--coral); }
+	.about-copy > p:not(.eyebrow) { max-width: 620px; color: var(--muted); font-size: 1.08rem; }
+	.about-copy .intro { color: var(--ink); font-family: var(--font-display); font-size: 1.45rem; }
+	.about-collage { position: relative; min-height: 560px; }
+	.photo { position: absolute; margin: 0; padding: 0.6rem; background: var(--white); box-shadow: var(--shadow); }
+	.photo img { width: 100%; height: 100%; object-fit: cover; }
+	.photo-main { inset: 2rem 3rem 2rem 0; transform: rotate(1.5deg); }
+	.photo-main img { aspect-ratio: 4 / 3; }
+	.photo-small { right: 0; bottom: 0; z-index: 2; width: 44%; transform: rotate(-5deg); }
+	.photo-small img { aspect-ratio: 4 / 3; }
+	.promise { margin-top: 3rem; padding: clamp(2rem, 5vw, 4rem); border-top: 3px solid var(--blue); border-bottom: 3px solid var(--blue); }
+	.promise h2 { max-width: 780px; color: var(--ink-blue); }
+	.promise-grid { margin-top: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; color: var(--muted); }
+
+	@media (max-width: 850px) {
+		main { padding-top: 3.5rem; }
+		.about-hero { grid-template-columns: 1fr; }
+		.about-collage { min-height: 520px; }
+		.promise-grid { grid-template-columns: 1fr; gap: 0.5rem; }
+	}
+
+	@media (max-width: 520px) {
+		main { width: min(100% - 1.5rem, 1160px); }
+		.about-collage { min-height: 340px; }
+		.photo-main { inset: 1rem 2rem 2rem 0; }
+	}
 </style>

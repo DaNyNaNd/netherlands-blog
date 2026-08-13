@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import tulipsPaper from '../assets/journal/tulips-paper.png';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -10,12 +12,26 @@ import { SITE_TITLE } from '../consts';
 	<head><BaseHead title={`Page not found | ${SITE_TITLE}`} description="This page could not be found." /></head>
 	<body>
 		<Header />
-		<main><p class="eyebrow">404</p><h1>That story isn’t here.</h1><p><a href="/">Return home</a></p></main>
+		<main>
+			<div>
+				<p class="eyebrow">404 · A missing page</p>
+				<h1>That story wandered off.</h1>
+				<p>It may have taken the scenic route along the canal.</p>
+				<a class="button-link" href="/">Return home</a>
+			</div>
+			<Image src={tulipsPaper} alt="Watercolor tulips" width={360} />
+		</main>
 		<Footer />
 	</body>
 </html>
 
 <style>
-	main { width: min(720px, calc(100% - 2rem)); margin: auto; padding: 6rem 0; }
-	.eyebrow { color: var(--accent); font-weight: 700; letter-spacing: 0.08em; }
+	main { width: min(940px, calc(100% - 2.5rem)); min-height: 620px; margin: auto; padding: 5rem 0; display: grid; grid-template-columns: 1fr 320px; align-items: center; gap: 3rem; }
+	h1 { color: var(--coral); }
+	main p:not(.eyebrow) { margin-bottom: 1.8rem; color: var(--muted); font-size: 1.15rem; }
+	main img { width: 300px; padding: 0.5rem; background: var(--white); box-shadow: var(--shadow); transform: rotate(3deg); }
+	@media (max-width: 650px) {
+		main { width: min(100% - 1.5rem, 940px); min-height: 520px; grid-template-columns: 1fr 110px; gap: 0.5rem; }
+		main img { width: 130px; }
+	}
 </style>

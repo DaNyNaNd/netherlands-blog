@@ -1,19 +1,41 @@
 ---
+import { Image } from 'astro:assets';
+import canalSketch from '../assets/journal/canal-sketch.png';
+
 const today = new Date();
 ---
 
 <footer>
-	<p>Made with love for family near and far.</p>
-	<p>&copy; {today.getFullYear()} Our Netherlands Chapter</p>
+	<div class="footer-inner">
+		<div class="footer-note">
+			<p class="note">Sending a little piece of our day to you.</p>
+			<div>
+				<p>Made with love for family near and far.</p>
+				<p>&copy; {today.getFullYear()} Our Netherlands Chapter</p>
+			</div>
+		</div>
+		<Image src={canalSketch} alt="Hand-drawn canal houses, a bridge, a boat, and tulips" width={720} />
+	</div>
 </footer>
 
 <style>
 	footer {
-		padding: 3rem 1rem;
+		padding: 2.2rem 1rem 2.6rem;
 		border-top: 1px solid var(--line);
 		color: var(--muted);
-		text-align: center;
+		background: var(--paper);
 		font-size: 0.9rem;
 	}
-	footer p { margin: 0.25rem 0; }
+
+	.footer-inner { width: min(1100px, 100%); margin: auto; }
+	.footer-note { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; }
+	.note { max-width: 18rem; color: var(--blue); font-family: var(--font-display); font-size: 1.15rem; font-style: italic; }
+	footer p { margin: 0.15rem 0; }
+	footer img { width: min(720px, 78%); margin: 0.8rem auto -1rem; mix-blend-mode: multiply; }
+
+	@media (max-width: 650px) {
+		.footer-note { display: block; text-align: center; }
+		.note { margin: 0 auto 1.25rem; }
+		footer img { width: 100%; }
+	}
 </style>

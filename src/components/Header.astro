@@ -5,7 +5,10 @@ import HeaderLink from './HeaderLink.astro';
 
 <header>
 	<nav aria-label="Main navigation">
-		<a class="wordmark" href="/">{SITE_TITLE}</a>
+		<a class="wordmark" href="/">
+			<span class="wordmark-main">{SITE_TITLE}</span>
+			<span class="wordmark-note">from NL, with love</span>
+		</a>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Journal</HeaderLink>
@@ -16,28 +19,43 @@ import HeaderLink from './HeaderLink.astro';
 
 <style>
 	header {
+		position: relative;
+		z-index: 20;
 		border-bottom: 1px solid var(--line);
-		background: rgba(255, 253, 249, 0.9);
+		background: rgba(251, 247, 238, 0.96);
 	}
+
 	nav {
-		width: min(1100px, calc(100% - 2rem));
-		min-height: 4.5rem;
+		width: min(1240px, calc(100% - 2.5rem));
+		min-height: 5rem;
 		margin: auto;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: 1.5rem;
 	}
+
 	.wordmark {
+		display: flex;
+		align-items: baseline;
+		gap: 0.75rem;
 		color: var(--ink);
-		font-family: Georgia, serif;
-		font-size: 1.15rem;
-		font-weight: 700;
 		text-decoration: none;
 	}
-	.internal-links { display: flex; gap: 0.25rem; }
-	@media (max-width: 460px) {
-		nav { min-height: 4rem; }
-		.wordmark { font-size: 1rem; }
+
+	.wordmark:hover { color: var(--coral-dark); }
+	.wordmark-main { font-family: var(--font-display); font-size: 1.18rem; font-weight: 700; }
+	.wordmark-note { color: var(--blue); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+	.internal-links { display: flex; gap: 0.4rem; }
+
+	@media (max-width: 650px) {
+		nav { width: min(100% - 1.25rem, 1240px); min-height: 4.4rem; gap: 0.5rem; }
+		.wordmark-main { max-width: 9.5rem; font-size: 1rem; line-height: 1.05; }
+		.wordmark-note { display: none; }
+		.internal-links { gap: 0; }
+	}
+
+	@media (max-width: 390px) {
+		.wordmark-main { max-width: 7rem; font-size: 0.9rem; }
 	}
 </style>

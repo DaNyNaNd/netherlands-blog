@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import rainyCanal from '../../assets/journal/rainy-canal.png';
+import tulipsPaper from '../../assets/journal/tulips-paper.png';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
@@ -15,14 +18,24 @@ const posts = await getPublishedPosts();
 	<body>
 		<Header />
 		<main>
-			<p class="eyebrow">The journal</p>
-			<h1>Stories from our new home.</h1>
+			<header class="page-heading">
+				<div>
+					<p class="eyebrow">The family journal</p>
+					<h1>Stories from our new home.</h1>
+					<p>Big days, ordinary moments, and the details we don’t want to forget.</p>
+				</div>
+				<Image src={tulipsPaper} alt="" aria-hidden="true" width={240} />
+			</header>
 			{
 				posts.length ? (
 					<div class="entries">
 						{posts.map((post) => (
 							<article>
-								{post.data.coverImage && <img src={post.data.coverImage} alt={post.data.coverAlt || ''} />}
+								{post.data.coverImage && (
+									<a class="entry-image" href={`/blog/${post.id}/`}>
+										<img src={post.data.coverImage} alt={post.data.coverAlt || ''} />
+									</a>
+								)}
 								<div>
 									<p class="date"><FormattedDate date={post.data.pubDate} /></p>
 									<h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
@@ -32,7 +45,19 @@ const posts = await getPublishedPosts();
 							</article>
 						))}
 					</div>
-				) : <p class="empty-state">No stories are published yet. The first one will appear here soon.</p>
+				) : (
+					<section class="empty-state paper-panel">
+						<div class="empty-photo">
+							<Image src={rainyCanal} alt="Canal houses and warm lights seen through a rainy window" width={420} />
+						</div>
+						<div>
+							<p class="eyebrow">Nothing published yet</p>
+							<h2>The first story is still being written.</h2>
+							<p>When it’s ready, it will appear here with all the photos, videos, and little details that made the day ours.</p>
+							<a href="/">Back to the front page</a>
+						</div>
+					</section>
+				)
 			}
 		</main>
 		<Footer />
@@ -40,14 +65,35 @@ const posts = await getPublishedPosts();
 </html>
 
 <style>
-	main { width: min(900px, calc(100% - 2rem)); margin: auto; padding: 4rem 0 5rem; }
-	.eyebrow, .date { color: var(--accent); font-size: 0.88rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
-	h1 { margin-bottom: 3rem; }
-	.entries { display: grid; gap: 2rem; }
-	.entries article { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
-	.entries img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 0.75rem; }
-	h2 { font-size: 1.8rem; } h2 a { color: var(--ink); text-decoration: none; } h2 a:hover { color: var(--accent); }
-	.entries article p:not(.date):not(.location), .empty-state { color: var(--muted); }
-	.location { font-size: 0.9rem; font-style: italic; }
-	@media (max-width: 600px) { main { padding-top: 2.5rem; } .entries article { grid-template-columns: 1fr; gap: 1rem; } }
+	main { width: min(1040px, calc(100% - 2.5rem)); margin: auto; padding: 4.5rem 0 6rem; }
+	.page-heading { min-height: 280px; margin-bottom: 4rem; display: grid; grid-template-columns: 1fr 220px; align-items: end; gap: 2rem; border-bottom: 3px solid var(--blue); }
+	.page-heading > div { padding-bottom: 3rem; }
+	.page-heading h1 { max-width: 760px; color: var(--coral); }
+	.page-heading p:not(.eyebrow) { max-width: 600px; color: var(--muted); font-size: 1.15rem; }
+	.page-heading img { align-self: end; width: 200px; margin-bottom: 1rem; padding: 0.45rem; background: var(--white); box-shadow: 0 10px 28px rgba(43, 36, 27, 0.12); transform: rotate(2deg); }
+	.entries { display: grid; gap: 3.5rem; }
+	.entries article { display: grid; grid-template-columns: minmax(260px, 0.8fr) 1.2fr; align-items: center; gap: clamp(2rem, 5vw, 4rem); padding-bottom: 3.5rem; border-bottom: 1px solid var(--line); }
+	.entries article:nth-child(even) .entry-image { transform: rotate(1.1deg); }
+	.entry-image { display: block; padding: 0.55rem; background: var(--white); box-shadow: var(--shadow); transform: rotate(-1.1deg); }
+	.entry-image img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+	h2 { font-size: clamp(2rem, 4vw, 3rem); }
+	h2 a { color: var(--ink-blue); text-decoration: none; }
+	h2 a:hover { color: var(--coral-dark); }
+	.entries article p:not(.date):not(.location), .empty-state p:not(.eyebrow) { color: var(--muted); }
+	.date { color: var(--coral); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+	.location { color: var(--blue); font-size: 0.9rem; font-style: italic; }
+	.empty-state { padding: clamp(1.25rem, 4vw, 3rem); display: grid; grid-template-columns: minmax(210px, 0.75fr) 1.25fr; align-items: center; gap: clamp(2rem, 5vw, 4rem); }
+	.empty-photo { padding: 0.5rem; background: var(--white); box-shadow: var(--shadow); transform: rotate(-2deg); }
+	.empty-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+	.empty-state h2 { color: var(--ink-blue); }
+	.empty-state a { font-weight: 700; }
+
+	@media (max-width: 700px) {
+		main { width: min(100% - 1.5rem, 1040px); padding-top: 3rem; }
+		.page-heading { min-height: 0; grid-template-columns: 1fr 110px; gap: 0.5rem; }
+		.page-heading > div { padding-bottom: 2rem; }
+		.page-heading img { width: 120px; }
+		.entries article, .empty-state { grid-template-columns: 1fr; }
+		.entry-image, .empty-photo { transform: none; }
+	}
 </style>
