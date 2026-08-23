@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # Private raw notes. Published narratives belong in src/content/blog/.
 journal/entries/
+
+# random extensions to exclude
+*.qta

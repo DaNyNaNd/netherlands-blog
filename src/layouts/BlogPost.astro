@@ -6,6 +6,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import MediaLightbox from '../components/MediaLightbox.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 const { title, description, pubDate, updatedDate, coverImage, coverAlt, locations } = Astro.props;
@@ -41,6 +42,7 @@ const { title, description, pubDate, updatedDate, coverImage, coverAlt, location
 				</footer>
 			</article>
 		</main>
+		<MediaLightbox />
 		<Footer />
 	</body>
 </html>
@@ -67,7 +69,21 @@ const { title, description, pubDate, updatedDate, coverImage, coverAlt, location
 	.prose :global(figure) { margin: 2.5rem 0; }
 	.prose :global(figure img) { margin: 0; }
 	.prose :global(figcaption) { margin-top: 0.7rem; color: var(--muted); font-size: 0.9rem; font-style: italic; text-align: center; }
-	.prose :global(video) { width: 100%; margin: 2.5rem 0; border: 0.55rem solid var(--white); background: var(--ink); box-shadow: 0 12px 32px rgba(43, 36, 27, 0.13); }
+	.prose :global(video) { display: block; width: 100%; margin: 2.5rem 0; border: 0.55rem solid var(--white); background: var(--ink); box-shadow: 0 12px 32px rgba(43, 36, 27, 0.13); }
+	.prose :global(.media-group) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; align-items: start; margin: 2.5rem 0 3rem; }
+	.prose :global(.media-group--three) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.prose :global(.media-group .media-figure) { min-width: 0; margin: 0; }
+	.prose :global(.media-figure) { break-inside: avoid; }
+	.prose :global(.media-figure img), .prose :global(.media-figure video) { margin: 0; }
+	.prose :global(.media-group img), .prose :global(.media-group video) { aspect-ratio: 4 / 3; object-fit: cover; }
+	.prose :global(.media-figure--feature) { grid-column: 1 / -1; }
+	.prose :global(.media-figure--compact) { width: min(100%, 420px); margin: 2.5rem auto 3rem; }
+	.cover,
+	.prose :global(figure img),
+	.prose :global(figure video) { cursor: zoom-in; }
+	.cover:focus-visible,
+	.prose :global(figure img:focus-visible),
+	.prose :global(figure video:focus-visible) { outline: 3px solid var(--yellow); outline-offset: 4px; }
 	.prose :global(a) { font-weight: 700; }
 	.story-end { width: min(720px, 100%); margin: 4rem auto 0; padding: 2rem; border-top: 3px solid var(--yellow); color: var(--muted); text-align: center; }
 	.story-end p { font-family: var(--font-display); font-size: 1.25rem; font-style: italic; }
@@ -77,9 +93,11 @@ const { title, description, pubDate, updatedDate, coverImage, coverAlt, location
 		.post-header img { display: none; }
 	}
 
-	@media (max-width: 600px) {
+	@media (max-width: 700px) {
 		.post { width: min(100% - 1.5rem, 920px); padding-top: 3.2rem; }
 		.post-kicker { display: block; }
 		.cover-frame { padding: 0.4rem; transform: none; }
+		.prose :global(.media-group), .prose :global(.media-group--three) { grid-template-columns: 1fr; gap: 1.75rem; }
+		.prose :global(.media-figure--feature) { grid-column: auto; }
 	}
 </style>
